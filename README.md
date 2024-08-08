@@ -30,6 +30,11 @@ Display all fonts on iOS
   - true: hide the system fonts
   - false: display the system fonts
 
+### Output
+
+![output](https://github.com/user-attachments/assets/e64dfe1e-1ede-432a-b2e8-a6f08e122f4e)
+
+
 ### Additions
 
 Another way via SystemFonts Set
