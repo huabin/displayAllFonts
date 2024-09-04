@@ -4,16 +4,11 @@
 import UIKit
 
 public func displayAllFonts(hideSystemFonts: Bool) {
-    // get custom fonts from info.plist
-    guard let customFonts = Bundle.main.object(forInfoDictionaryKey: "UIAppFonts") as? [String] else {
-        print("No custom fonts")
-        return
-    }
-
+    // Get custom fonts from info.plist
+    let customFonts = Bundle.main.object(forInfoDictionaryKey: "UIAppFonts") as? [String] ?? []
     var customFontNames = Set<String>()
-
+    
     for font in customFonts {
-        // Get fullPath
         if let fontPath = Bundle.main.path(forResource: font, ofType: nil),
            let fontData = NSData(contentsOfFile: fontPath) as Data?,
            let dataProvider = CGDataProvider(data: fontData as CFData),
@@ -23,21 +18,23 @@ public func displayAllFonts(hideSystemFonts: Bool) {
             customFontNames.insert(postScriptName)
         }
     }
-
+    
+    var hasDisplayedFonts = false
+    
     for family in UIFont.familyNames {
-        var shouldPrint = true
-
-        if hideSystemFonts {
-            let fontNames = UIFont.fontNames(forFamilyName: family)
-            // Check: all system fonts
-            shouldPrint = fontNames.contains { customFontNames.contains($0) }
-        }
-
+        let fontNames = UIFont.fontNames(forFamilyName: family)
+        let shouldPrint = !hideSystemFonts || fontNames.contains { customFontNames.contains($0) }
+        
         if shouldPrint {
             print("\nFont Family: \(family)")
-            for name in UIFont.fontNames(forFamilyName: family) {
+            for name in fontNames {
                 print("- \(name)")
             }
+            hasDisplayedFonts = true
         }
+    }
+    
+    if hideSystemFonts && !hasDisplayedFonts {
+        print("No custom fonts")
     }
 }
