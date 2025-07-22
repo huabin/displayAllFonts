@@ -1,6 +1,6 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
-// Bin Hua <https://binhua.org>
+// Bin Hua <https://tourcoder.com>
 import UIKit
 
 public func displayAllFonts(hideSystemFonts: Bool) {
